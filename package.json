@@ -1,0 +1,50 @@
+{
+  "name": "@blackglory/bundle",
+  "version": "0.1.0",
+  "description": "",
+  "keywords": [],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/es2018/index.js",
+  "types": "lib/es2018/index.d.ts",
+  "repository": "git@github.com:BlackGlory/bundle.git",
+  "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
+    "test": "jest --config jest.config.js",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "coverage": "jest --coverage --config jest.config.js",
+    "prepublishOnly": "yarn clean && yarn build",
+    "clean": "rm -rf lib",
+    "build": "yarn build:es2015 && yarn build:es2018",
+    "build:es2015": "tsc --project tsconfig.build.json --target es2015 --outDir lib/es2015 && tscpaths -p tsconfig.build.json -s ./src -o ./lib/es2015",
+    "build:es2018": "tsc --project tsconfig.build.json --target es2018 --outDir lib/es2018 && tscpaths -p tsconfig.build.json -s ./src -o ./lib/es2018"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "dependencies": {
+    "iterable-operator": "^0.12.1",
+    "return-style": "^0.9.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "@types/jest": "^26.0.10",
+    "@types/node": "^14.6.0",
+    "@typescript-eslint/eslint-plugin": "^3.10.1",
+    "@typescript-eslint/parser": "^3.10.1",
+    "eslint": "^7.7.0",
+    "husky": "^4.2.5",
+    "jest": "^26.4.2",
+    "jest-extended": "^0.11.5",
+    "ts-jest": "^26.2.0",
+    "tscpaths": "^0.0.9",
+    "typescript": "^4.0.2"
+  }
+}
