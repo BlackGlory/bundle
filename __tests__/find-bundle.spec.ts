@@ -1,7 +1,7 @@
 import { getErrorPromise } from 'return-style'
 import * as path from 'path'
 import { findBundle, NoIndexFileError, NoMetaFileError, NotDirectoryError, TooManyIndexFilesError, TooManyMetaFilesError } from '@src/find-bundle'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 
 describe('findBundle(path: string): Promise<Bundle>', () => {
   describe('is bundle', () => {

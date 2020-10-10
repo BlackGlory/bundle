@@ -1,7 +1,7 @@
 import * as path from 'path'
 import { findAllBundles } from '@src/find-all-bundles'
 import { toArrayAsync } from 'iterable-operator'
-import '@test/matchers'
+import '@blackglory/jest-matchers'
 import 'jest-extended'
 
 describe('findAllBundles(path: string): AsyncIterable<Bundle>', () => {
