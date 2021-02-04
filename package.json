@@ -34,7 +34,7 @@
     }
   },
   "dependencies": {
-    "extra-filesystem": "^0.1.0",
+    "extra-filesystem": "^0.2.5",
     "fs-extra": "^9.1.0",
     "iterable-operator": "^0.13.0",
     "return-style": "^0.11.4"
