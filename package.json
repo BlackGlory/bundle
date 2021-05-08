@@ -43,7 +43,6 @@
     "@blackglory/jest-matchers": "^0.1.15",
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
-    "@types/fs-extra": "^9.0.11",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.2",
     "@typescript-eslint/eslint-plugin": "^4.22.1",
