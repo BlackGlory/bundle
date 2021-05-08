@@ -1,9 +1,9 @@
 import { toArrayAsync } from 'iterable-operator'
 import * as path from 'path'
 import { Bundle } from '@src/types'
-import { findAllFilenames, isDirectory } from 'extra-filesystem'
+import { findAllFilenames, isDirectory, pathExists } from 'extra-filesystem'
 import { CustomError } from '@blackglory/errors'
-import * as fs from 'fs-extra'
+import { promises as fs } from 'fs'
 
 export class NoIndexFileError extends CustomError {}
 export class NoMetaFileError extends CustomError {}
@@ -56,7 +56,8 @@ async function findMetaFilename(rootPath: string): Promise<string> {
 
 async function findAssetFilenames(rootPath: string): Promise<string[]> {
   const assetsPath = path.join(rootPath, 'assets')
-  if (!await fs.pathExists(assetsPath) || !await isDirectory(assetsPath)) return []
+  if (!await pathExists(assetsPath)) return []
+  if (!await isDirectory(assetsPath)) return []
 
   const filenames = await toArrayAsync(findAllFilenames(assetsPath))
   return filenames.map(x => path.relative(rootPath, x))
