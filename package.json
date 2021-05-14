@@ -34,19 +34,19 @@
     }
   },
   "dependencies": {
-    "extra-filesystem": "^0.2.9",
+    "extra-filesystem": "^0.3.0",
     "iterable-operator": "^0.13.6",
     "return-style": "^0.12.3"
   },
   "devDependencies": {
     "@blackglory/errors": "^1.1.0",
-    "@blackglory/jest-matchers": "^0.1.15",
-    "@commitlint/cli": "^12.1.1",
-    "@commitlint/config-conventional": "^12.1.1",
+    "@blackglory/jest-matchers": "^0.1.16",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@types/jest": "^26.0.23",
-    "@types/node": "^15.0.2",
-    "@typescript-eslint/eslint-plugin": "^4.22.1",
-    "@typescript-eslint/parser": "^4.22.1",
+    "@types/node": "14",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "eslint": "^7.26.0",
     "husky": "^4.3.8",
     "jest": "^26.6.3",
