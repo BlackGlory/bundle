@@ -35,12 +35,12 @@
   },
   "dependencies": {
     "extra-filesystem": "^0.3.0",
-    "iterable-operator": "^0.13.6",
+    "iterable-operator": "^0.14.0",
     "return-style": "^0.12.3"
   },
   "devDependencies": {
     "@blackglory/errors": "^1.1.0",
-    "@blackglory/jest-matchers": "^0.1.16",
+    "@blackglory/jest-matchers": "^0.1.17",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@types/jest": "^26.0.23",

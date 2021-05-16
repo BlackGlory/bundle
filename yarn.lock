@@ -296,15 +296,15 @@
   resolved "https://registry.yarnpkg.com/@blackglory/go/-/go-0.1.0.tgz#a145a98d17593549a91ed79766230f5c7719e1de"
   integrity sha512-p6kO5ThjCLRg3giGiaYhYcMZeA2akHAcCzjW7D5zz2YTJQ2JDKNzSk4WkKEFSpSiFcMzeNABN+tz1tasn4D2tg==
 
-"@blackglory/jest-matchers@^0.1.16":
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/@blackglory/jest-matchers/-/jest-matchers-0.1.16.tgz#8d9ba7b835e5a54003994dbb78b730f507587f90"
-  integrity sha512-GHBMxSZwz48UYSjQRLRUruqUHttZG9NObijuwQ3FjPpxzKEqOaXqhvYFSi7nGAGDz3OeZ0RBC4ZH+ybluos9Dw==
+"@blackglory/jest-matchers@^0.1.17":
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/@blackglory/jest-matchers/-/jest-matchers-0.1.17.tgz#d0fef430e91bd33a9c3db9513bcb7b3c710cf8ee"
+  integrity sha512-2M38lrvqQC85/lf1ZHMRj+gPuMoiCXrqmOM0z1Z+9gjQP/sSwxDc8HJyDYyAn22wl3WPT9OLzx9xi+cY95Ghfg==
   dependencies:
     "@blackglory/go" "^0.1.0"
     "@blackglory/types" "^0.4.2"
-    "@types/node" "^15.0.2"
-    extra-filesystem "^0.2.10"
+    "@types/node" "14"
+    extra-filesystem "^0.3.0"
     extra-promise "^0.16.4"
     extra-stream "^0.1.1"
     jest-diff "^26.6.2"
@@ -870,11 +870,6 @@
   version "14.14.45"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.45.tgz#ec2dfb5566ff814d061aef7e141575aedba245cf"
   integrity sha512-DssMqTV9UnnoxDWu959sDLZzfvqCF0qDNRjaWeYSui9xkFe61kKo4l1TWNTQONpuXEm+gLMRvdlzvNHBamzmEw==
-
-"@types/node@^15.0.2":
-  version "15.0.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.0.2.tgz#51e9c0920d1b45936ea04341aa3e2e58d339fb67"
-  integrity sha512-p68+a+KoxpoB47015IeYZYRrdqMUcpbK8re/zpFB8Ld46LHC1lPEbp3EXgkEhAYEcPvjJF6ZO+869SQ0aH1dcA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -2382,13 +2377,6 @@ extra-fetch@^1.7.1:
     return-style "^0.12.3"
     value-getter "^0.1.13"
 
-extra-filesystem@^0.2.10:
-  version "0.2.20"
-  resolved "https://registry.yarnpkg.com/extra-filesystem/-/extra-filesystem-0.2.20.tgz#418525681edbcb8a4397703e48b4286d1f1a710c"
-  integrity sha512-02ejyg/FqoaWnb1trU0XpyAoujZauzt73Vn7OBXf0iHGh4FZXSQn9z6If5vShJlrp9PYlCt0eUIZ9V81hXPbXQ==
-  dependencies:
-    tmp-promise "^3.0.2"
-
 extra-filesystem@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/extra-filesystem/-/extra-filesystem-0.3.0.tgz#9b1ee35c5d31651f1fba4f1654bf21d1e82dd875"
@@ -3382,6 +3370,15 @@ iterable-operator@^0.13.6:
   dependencies:
     "@blackglory/go" "^0.1.0"
     "@blackglory/types" "^0.4.1"
+
+iterable-operator@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/iterable-operator/-/iterable-operator-0.14.0.tgz#94a982e2a3ebee03ae52df08fd8c5928ee742b41"
+  integrity sha512-WqLXpr9mJvHzGx86QzcJyJi2u/F7MGlDBxTr85y9z/y+nHNLNv8DT405FOGhCxx1f7MaYNZHmCMCuL31mOc9eA==
+  dependencies:
+    "@blackglory/errors" "^1.1.2"
+    "@blackglory/go" "^0.1.0"
+    "@blackglory/types" "^0.4.2"
 
 jest-changed-files@^26.6.2:
   version "26.6.2"
