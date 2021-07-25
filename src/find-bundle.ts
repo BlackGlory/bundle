@@ -1,9 +1,9 @@
 import { toArrayAsync } from 'iterable-operator'
 import * as path from 'path'
-import { Bundle } from '@src/types'
+import { IBundle } from '@src/types'
 import { findAllFilenames, isDirectory, pathExists } from 'extra-filesystem'
 import { CustomError } from '@blackglory/errors'
-import { promises as fs } from 'fs'
+import * as fs from 'fs/promises'
 
 export class NoIndexFileError extends CustomError {}
 export class NoMetaFileError extends CustomError {}
@@ -11,7 +11,7 @@ export class TooManyIndexFilesError extends CustomError {}
 export class TooManyMetaFilesError extends CustomError {}
 export class NotDirectoryError extends CustomError {}
 
-export async function findBundle(rootPath: string): Promise<Bundle> {
+export async function findBundle(rootPath: string): Promise<IBundle> {
   if (!await isDirectory(rootPath)) throw new NotDirectoryError()
 
   const index = await findIndexFilename(rootPath)
@@ -36,8 +36,8 @@ async function findIndexFilename(rootPath: string): Promise<string> {
     .filter(x => x.basename === 'index')
 
   if (indexList.length === 1) return indexList[0].filename
-  else if (indexList.length > 1) throw new TooManyIndexFilesError()
-  else throw new NoIndexFileError()
+  if (indexList.length > 1) throw new TooManyIndexFilesError()
+  throw new NoIndexFileError()
 }
 
 async function findMetaFilename(rootPath: string): Promise<string> {
@@ -50,8 +50,8 @@ async function findMetaFilename(rootPath: string): Promise<string> {
     .filter(x => x.basename === 'meta')
 
   if (metaList.length === 1) return metaList[0].filename
-  else if (metaList.length > 1) throw new TooManyMetaFilesError()
-  else throw new NoMetaFileError()
+  if (metaList.length > 1) throw new TooManyMetaFilesError()
+  throw new NoMetaFileError()
 }
 
 async function findAssetFilenames(rootPath: string): Promise<string[]> {

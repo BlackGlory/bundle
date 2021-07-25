@@ -1,15 +1,12 @@
 import { findBundle } from './find-bundle'
 import { AsyncIterableOperator } from 'iterable-operator/lib/es2018/style/chaining/async-iterable-operator'
-import { getErrorResultPromise } from 'return-style'
-import { Bundle } from './types'
+import { getResultPromise } from 'return-style'
+import { IBundle } from './types'
 import { findAllDirnames } from 'extra-filesystem'
+import { isntUndefined } from '@blackglory/types'
 
-export function findAllBundles(path: string): AsyncIterable<Bundle> {
+export function findAllBundles(path: string): AsyncIterable<IBundle> {
   return new AsyncIterableOperator(findAllDirnames(path))
-    .mapAsync(async x => {
-      const [err, bundle] = await getErrorResultPromise(findBundle(x))
-      if (err) return undefined
-      else return bundle
-    })
-    .filterAsync<Bundle>(x => !!x)
+    .mapAsync(x => getResultPromise(findBundle(x)))
+    .filterAsync(isntUndefined)
 }

@@ -1,4 +1,4 @@
-export interface Bundle {
+export interface IBundle {
   root: string
   meta: string
   text: string
