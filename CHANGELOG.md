@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/BlackGlory/bundle/compare/v0.1.10...v0.2.0) (2021-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename IBundle.text to IBundle.index
+
+### Features
+
+* rename IBundle.text to IBundle.index ([39b8b25](https://github.com/BlackGlory/bundle/commit/39b8b251b40cda4b59d6b2974f73e653373a0ffc))
+
 ### [0.1.10](https://github.com/BlackGlory/bundle/compare/v0.1.9...v0.1.10) (2021-07-25)
 
 ### [0.1.9](https://github.com/BlackGlory/bundle/compare/v0.1.8...v0.1.9) (2021-07-12)
