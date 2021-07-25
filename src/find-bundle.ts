@@ -20,7 +20,7 @@ export async function findBundle(rootPath: string): Promise<IBundle> {
 
   return {
     root: rootPath
-  , text: index
+  , index
   , meta
   , assets
   }

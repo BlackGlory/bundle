@@ -3,10 +3,10 @@ import * as path from 'path'
 import { findBundle, NoIndexFileError, NoMetaFileError, NotDirectoryError, TooManyIndexFilesError, TooManyMetaFilesError } from '@src/find-bundle'
 import '@blackglory/jest-matchers'
 
-describe('findBundle(path: string): Promise<Bundle>', () => {
+describe('findBundle(path: string): Promise<IBundle>', () => {
   describe('is bundle', () => {
     describe('with assets', () => {
-      it('return Promise<Bundle>', async () => {
+      it('return Promise<IBundle>', async () => {
         const path = getFixturesPath('bundle/with-assets')
 
         const result = findBundle(path)
@@ -16,7 +16,7 @@ describe('findBundle(path: string): Promise<Bundle>', () => {
         expect(proResult).toStrictEqual({
           root: path
         , meta: 'meta.json'
-        , text: 'index.md'
+        , index: 'index.md'
         , assets: [
             'assets/images/image.png'
           ]
@@ -25,7 +25,7 @@ describe('findBundle(path: string): Promise<Bundle>', () => {
     })
 
     describe('no assets', () => {
-      it('return Promise<Bundle>', async () => {
+      it('return Promise<IBundle>', async () => {
         const path = getFixturesPath('bundle/no-assets')
 
         const result = findBundle(path)
@@ -35,7 +35,7 @@ describe('findBundle(path: string): Promise<Bundle>', () => {
         expect(proResult).toStrictEqual({
           root: path
         , meta: 'meta.json'
-        , text: 'index.md'
+        , index: 'index.md'
         , assets: []
         })
       })
