@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/BlackGlory/bundle/compare/v0.2.0...v0.3.0) (2021-08-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename `index` to `text`
+
+### Features
+
+* rename `index` to `text` ([d5a95b0](https://github.com/BlackGlory/bundle/commit/d5a95b0347888b5c23fb2971bbb98cf7a3acab04))
+
 ## [0.2.0](https://github.com/BlackGlory/bundle/compare/v0.1.10...v0.2.0) (2021-07-25)
 
 
