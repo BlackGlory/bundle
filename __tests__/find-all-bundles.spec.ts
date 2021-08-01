@@ -12,13 +12,13 @@ test('findAllBundles(path: string): AsyncIterable<IBundle>', async () => {
   expect(arrResult).toIncludeSameMembers([
     {
       root: getFixturesPath('bundle/no-assets')
-    , index: 'index.md'
+    , text: 'text.md'
     , meta: 'meta.json'
     , assets: []
     }
   , {
       root: getFixturesPath('bundle/with-assets')
-    , index: 'index.md'
+    , text: 'text.md'
     , meta: 'meta.json'
     , assets: [
         'assets/images/image.png'

@@ -10,9 +10,9 @@ export interface IBundle {
   meta: string
 
   /**
-   * The path of the index file, relative to the root directory
+   * The path of the text file, relative to the root directory
    */
-  index: string
+  text: string
 
   /**
    * The path of assets, relative to the root directory

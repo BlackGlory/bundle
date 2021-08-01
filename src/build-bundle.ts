@@ -5,50 +5,50 @@ import { findAllFilenames, isDirectory, pathExists } from 'extra-filesystem'
 import { CustomError } from '@blackglory/errors'
 import * as fs from 'fs/promises'
 
-export class NoIndexFileError extends CustomError {}
+export class NoTextFileError extends CustomError {}
 export class NoMetaFileError extends CustomError {}
-export class TooManyIndexFilesError extends CustomError {}
+export class TooManyTextFilesError extends CustomError {}
 export class TooManyMetaFilesError extends CustomError {}
 export class NotDirectoryError extends CustomError {}
 
 /**
  * @throws {NotDirectoryError}
- * @throws {TooManyIndexFilesError}
- * @throws {NoIndexFileError}
+ * @throws {TooManyTextFilesError}
+ * @throws {NoTextFileError}
  * @throws {TooManyMetaFilesError}
  * @throws {NoMetaFileError}
  */
-export async function findBundle(rootPath: string): Promise<IBundle> {
-  if (!await isDirectory(rootPath)) throw new NotDirectoryError()
+export async function buildBundle(path: string): Promise<IBundle> {
+  if (!await isDirectory(path)) throw new NotDirectoryError()
 
-  const index = await findIndexFilename(rootPath)
-  const meta = await findMetaFilename(rootPath)
-  const assets = await findAssetFilenames(rootPath)
+  const text = await findTextFilename(path)
+  const meta = await findMetaFilename(path)
+  const assets = await findAssetFilenames(path)
 
   return {
-    root: rootPath
-  , index
+    root: path
+  , text
   , meta
   , assets
   }
 }
 
 /**
- * @throws {TooManyIndexFilesError} 
- * @throws {NoIndexFileError}
+ * @throws {TooManyTextFilesError} 
+ * @throws {NoTextFileError}
  */
-async function findIndexFilename(rootPath: string): Promise<string> {
+async function findTextFilename(rootPath: string): Promise<string> {
   const filenames = await fs.readdir(rootPath)
   const indexList = filenames
     .map(x => ({
       filename: x
     , basename: getBasename(x)
     }))
-    .filter(x => x.basename === 'index')
+    .filter(x => x.basename === 'text')
 
   if (indexList.length === 1) return indexList[0].filename
-  if (indexList.length > 1) throw new TooManyIndexFilesError()
-  throw new NoIndexFileError()
+  if (indexList.length > 1) throw new TooManyTextFilesError()
+  throw new NoTextFileError()
 }
 
 /**

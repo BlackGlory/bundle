@@ -1,22 +1,22 @@
 import { getErrorPromise } from 'return-style'
 import * as path from 'path'
-import { findBundle, NoIndexFileError, NoMetaFileError, NotDirectoryError, TooManyIndexFilesError, TooManyMetaFilesError } from '@src/find-bundle'
+import { buildBundle, NoTextFileError, NoMetaFileError, NotDirectoryError, TooManyTextFilesError, TooManyMetaFilesError } from '@src/build-bundle'
 import '@blackglory/jest-matchers'
 
-describe('findBundle(path: string): Promise<IBundle>', () => {
+describe('buildBundle(path: string): Promise<IBundle>', () => {
   describe('is bundle', () => {
     describe('with assets', () => {
       it('return Promise<IBundle>', async () => {
         const path = getFixturesPath('bundle/with-assets')
 
-        const result = findBundle(path)
+        const result = buildBundle(path)
         const proResult = await result
 
         expect(result).toBePromise()
         expect(proResult).toStrictEqual({
           root: path
         , meta: 'meta.json'
-        , index: 'index.md'
+        , text: 'text.md'
         , assets: [
             'assets/images/image.png'
           ]
@@ -28,14 +28,14 @@ describe('findBundle(path: string): Promise<IBundle>', () => {
       it('return Promise<IBundle>', async () => {
         const path = getFixturesPath('bundle/no-assets')
 
-        const result = findBundle(path)
+        const result = buildBundle(path)
         const proResult = await result
 
         expect(result).toBePromise()
         expect(proResult).toStrictEqual({
           root: path
         , meta: 'meta.json'
-        , index: 'index.md'
+        , text: 'text.md'
         , assets: []
         })
       })
@@ -47,7 +47,7 @@ describe('findBundle(path: string): Promise<IBundle>', () => {
       it('throw NoDirectoryError', async () => {
         const path = getFixturesPath('not-bundle/not-directory')
 
-        const result = findBundle(path)
+        const result = buildBundle(path)
         const proResult = await getErrorPromise(result)
 
         expect(result).toBePromise()
@@ -55,11 +55,11 @@ describe('findBundle(path: string): Promise<IBundle>', () => {
       })
     })
 
-    describe('only index', () => {
+    describe('only text', () => {
       it('throw NoMetaFileError', async () => {
-        const path = getFixturesPath('not-bundle/only-index')
+        const path = getFixturesPath('not-bundle/only-text')
 
-        const result = findBundle(path)
+        const result = buildBundle(path)
         const proResult = await getErrorPromise(result)
 
         expect(result).toBePromise()
@@ -68,26 +68,26 @@ describe('findBundle(path: string): Promise<IBundle>', () => {
     })
 
     describe('only meta', () => {
-      it('throw NoIndexFileError', async () => {
+      it('throw NoTextFileError', async () => {
         const path = getFixturesPath('not-bundle/only-meta')
 
-        const result = findBundle(path)
+        const result = buildBundle(path)
         const proResult = await getErrorPromise(result)
 
         expect(result).toBePromise()
-        expect(proResult).toBeInstanceOf(NoIndexFileError)
+        expect(proResult).toBeInstanceOf(NoTextFileError)
       })
     })
 
-    describe('multiple index', () => {
-      it('throw TooManyIndexFilesError', async () => {
-        const path = getFixturesPath('not-bundle/multiple-index')
+    describe('multiple text', () => {
+      it('throw TooManyTextFilesError', async () => {
+        const path = getFixturesPath('not-bundle/multiple-text')
 
-        const result = findBundle(path)
+        const result = buildBundle(path)
         const proResult = await getErrorPromise(result)
 
         expect(result).toBePromise()
-        expect(proResult).toBeInstanceOf(TooManyIndexFilesError)
+        expect(proResult).toBeInstanceOf(TooManyTextFilesError)
       })
     })
 
@@ -95,7 +95,7 @@ describe('findBundle(path: string): Promise<IBundle>', () => {
       it('throw TooManyMetaFilesError', async () => {
         const path = getFixturesPath('not-bundle/multiple-meta')
 
-        const result = findBundle(path)
+        const result = buildBundle(path)
         const proResult = await getErrorPromise(result)
 
         expect(result).toBePromise()
