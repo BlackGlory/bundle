@@ -11,6 +11,13 @@ export class TooManyIndexFilesError extends CustomError {}
 export class TooManyMetaFilesError extends CustomError {}
 export class NotDirectoryError extends CustomError {}
 
+/**
+ * @throws {NotDirectoryError}
+ * @throws {TooManyIndexFilesError}
+ * @throws {NoIndexFileError}
+ * @throws {TooManyMetaFilesError}
+ * @throws {NoMetaFileError}
+ */
 export async function findBundle(rootPath: string): Promise<IBundle> {
   if (!await isDirectory(rootPath)) throw new NotDirectoryError()
 
@@ -26,6 +33,10 @@ export async function findBundle(rootPath: string): Promise<IBundle> {
   }
 }
 
+/**
+ * @throws {TooManyIndexFilesError} 
+ * @throws {NoIndexFileError}
+ */
 async function findIndexFilename(rootPath: string): Promise<string> {
   const filenames = await fs.readdir(rootPath)
   const indexList = filenames
@@ -40,6 +51,10 @@ async function findIndexFilename(rootPath: string): Promise<string> {
   throw new NoIndexFileError()
 }
 
+/**
+ * @throws {TooManyMetaFilesError} 
+ * @throws {NoMetaFileError}
+ */
 async function findMetaFilename(rootPath: string): Promise<string> {
   const filenames = await fs.readdir(rootPath)
   const metaList = filenames
