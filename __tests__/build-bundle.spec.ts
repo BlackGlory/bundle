@@ -1,7 +1,14 @@
 import { getErrorPromise } from 'return-style'
-import * as path from 'path'
-import { buildBundle, NoTextFileError, NoMetaFileError, NotDirectoryError, TooManyTextFilesError, TooManyMetaFilesError } from '@src/build-bundle'
+import {
+  buildBundle
+, NoTextFileError
+, NoMetaFileError
+, NotDirectoryError
+, TooManyTextFilesError
+, TooManyMetaFilesError
+} from '@src/build-bundle'
 import '@blackglory/jest-matchers'
+import { getFixturesPath } from '@test/utils'
 
 describe('buildBundle(path: string): Promise<IBundle>', () => {
   describe('is bundle', () => {
@@ -116,7 +123,3 @@ describe('buildBundle(path: string): Promise<IBundle>', () => {
     })
   })
 })
-
-function getFixturesPath(relativePath: string): string {
-  return path.join(__dirname, './fixtures', relativePath)
-}

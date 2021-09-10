@@ -85,6 +85,12 @@ interface IBundle {
 function buildBundle(path: string): Promise<IBundle>
 ```
 
+### isBundle
+
+```ts
+function isBundle(path: string): Promise<boolean>
+```
+
 ### findAllBundles
 
 ```ts

@@ -1,6 +1,6 @@
-import * as path from 'path'
 import { findAllBundles } from '@src/find-all-bundles'
 import { toArrayAsync } from 'iterable-operator'
+import { getFixturesPath } from '@test/utils'
 import '@blackglory/jest-matchers'
 import 'jest-extended'
 
@@ -26,7 +26,3 @@ test('findAllBundles(path: string): AsyncIterable<IBundle>', async () => {
     }
   ])
 })
-
-function getFixturesPath(relativePath: string): string {
-  return path.join(__dirname, './fixtures', relativePath)
-}
