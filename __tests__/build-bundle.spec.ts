@@ -43,6 +43,18 @@ describe('buildBundle(path: string): Promise<IBundle>', () => {
   })
 
   describe('not bundle', () => {
+    describe('just not a bundle', () => {
+      it('throw Error', async () => {
+        const path = getFixturesPath('not-bundle')
+
+        const result = buildBundle(path)
+        const proResult = await getErrorPromise(result)
+
+        expect(result).toBePromise()
+        expect(proResult).toBeInstanceOf(Error)
+      })
+    })
+
     describe('not directory', () => {
       it('throw NoDirectoryError', async () => {
         const path = getFixturesPath('not-bundle/not-directory')
