@@ -12,7 +12,7 @@
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
   "engines": {
-    "node": ">=16"
+    "node": ">=14"
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
