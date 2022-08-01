@@ -11,6 +11,7 @@
   "repository": "git@github.com:BlackGlory/bundle.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
+  "sideEffects": false,
   "engines": {
     "node": ">=14"
   },
