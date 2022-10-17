@@ -8,7 +8,6 @@
 [TextBundle]: http://textbundle.org/
 
 ## Install
-
 ```sh
 npm install --save @blackglory/bundle
 # or
@@ -28,24 +27,23 @@ yarn add @blackglory/bundle
 
 bundle目录下的其他文件和目录会被忽略, 从而允许在此存放临时文件, 系统文件和版本控制系统.
 
-### /
+### `/`
 bundle的根目录, 目录名称是随意的, 只需要便于人类识别.
 
-### /text
+### `/text`
 bundle的文本, 格式不受限制, 取决于具体实现.
 
 如果text文件不存在, 则不会将此目录视作一个bundle.
 
-### /meta
+### `/meta`
 bundle的元数据, 它是一种能够被解析为键值对字典的文件, 格式不受限制, 取决于具体实现.
 
 如果meta文件不存在, 则不会将此目录视作一个bundle.
 
-### /assets
+### `/assets`
 一个目录, 用于存放bundle使用到的资源.
 
 ## API
-
 ```ts
 interface IBundle {
   /**
@@ -71,7 +69,6 @@ interface IBundle {
 ```
 
 ### buildBundle
-
 ```ts
 /**
  * @throws {NotDirectoryError}
@@ -84,13 +81,11 @@ function buildBundle(path: string): Promise<IBundle>
 ```
 
 ### isBundle
-
 ```ts
 function isBundle(path: string): Promise<boolean>
 ```
 
 ### findAllBundles
-
 ```ts
 function findAllBundles(path: string): AsyncIterable<IBundle> 
 ```
