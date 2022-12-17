@@ -1,18 +1,14 @@
 import { isBundle } from '@src/is-bundle'
 import { getFixturesPath } from '@test/utils'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 describe('isBundle(path: string): Promise<boolean>', () => {
   describe('is bundle', () => {
     it('return Promise<true>', async () => {
       const path = getFixturesPath('bundle/no-assets')
 
-      const result = isBundle(path)
-      const proResult = await result
+      const result = await isBundle(path)
 
-      expect(result).toBePromise()
-      expect(proResult).toBeTrue()
+      expect(result).toBe(true)
     })
   })
 
@@ -21,11 +17,9 @@ describe('isBundle(path: string): Promise<boolean>', () => {
       it('return Promise<false>', async () => {
         const path = getFixturesPath('not-bundle')
 
-        const result = isBundle(path)
-        const proResult = await result
+        const result = await isBundle(path)
 
-        expect(result).toBePromise()
-        expect(proResult).toBeFalse()
+        expect(result).toBe(false)
       })
     })
 
@@ -33,11 +27,9 @@ describe('isBundle(path: string): Promise<boolean>', () => {
       it('return Promise<false>', async () => {
         const path = getFixturesPath('not-bundle/not-directory')
 
-        const result = isBundle(path)
-        const proResult = await result
+        const result = await isBundle(path)
 
-        expect(result).toBePromise()
-        expect(proResult).toBeFalse()
+        expect(result).toBe(false)
       })
     })
 
@@ -45,11 +37,9 @@ describe('isBundle(path: string): Promise<boolean>', () => {
       it('return Promise<false>', async () => {
         const path = getFixturesPath('not-bundle/only-text')
 
-        const result = isBundle(path)
-        const proResult = await result
+        const result = await isBundle(path)
 
-        expect(result).toBePromise()
-        expect(proResult).toBeFalse()
+        expect(result).toBe(false)
       })
     })
 
@@ -57,11 +47,9 @@ describe('isBundle(path: string): Promise<boolean>', () => {
       it('return Promise<false>', async () => {
         const path = getFixturesPath('not-bundle/only-meta')
 
-        const result = isBundle(path)
-        const proResult = await result
+        const result = await isBundle(path)
 
-        expect(result).toBePromise()
-        expect(proResult).toBeFalse()
+        expect(result).toBe(false)
       })
     })
 
@@ -69,11 +57,9 @@ describe('isBundle(path: string): Promise<boolean>', () => {
       it('return Promise<false>', async () => {
         const path = getFixturesPath('not-bundle/multiple-text')
 
-        const result = isBundle(path)
-        const proResult = await result
+        const result = await isBundle(path)
 
-        expect(result).toBePromise()
-        expect(proResult).toBeFalse()
+        expect(result).toBe(false)
       })
     })
 
@@ -81,11 +67,9 @@ describe('isBundle(path: string): Promise<boolean>', () => {
       it('return Promise<false>', async () => {
         const path = getFixturesPath('not-bundle/multiple-meta')
 
-        const result = isBundle(path)
-        const proResult = await result
+        const result = await isBundle(path)
 
-        expect(result).toBePromise()
-        expect(proResult).toBeFalse()
+        expect(result).toBe(false)
       })
     })
   })

@@ -1,15 +1,12 @@
 import { findAllBundles } from '@src/find-all-bundles'
 import { toArrayAsync } from 'iterable-operator'
 import { getFixturesPath } from '@test/utils'
-import '@blackglory/jest-matchers'
-import 'jest-extended'
 
 test('findAllBundles(path: string): AsyncIterable<IBundle>', async () => {
-  const result = findAllBundles(getFixturesPath('.'))
-  const arrResult = await toArrayAsync(result)
+  const iter = findAllBundles(getFixturesPath('.'))
+  const result = await toArrayAsync(iter)
 
-  expect(result).toBeAsyncIterable()
-  expect(arrResult).toIncludeSameMembers([
+  expect(result).toMatchObject([
     {
       root: getFixturesPath('bundle/no-assets')
     , text: 'text.md'
