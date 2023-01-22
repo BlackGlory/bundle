@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://github.com/BlackGlory/bundle/compare/v0.5.0...v0.5.1) (2023-01-22)
+
+
+### Bug Fixes
+
+* peer dependencies ([9a906a8](https://github.com/BlackGlory/bundle/commit/9a906a83766ff92db5e217b6c034d476ad89a743))
+
 ## [0.5.0](https://github.com/BlackGlory/bundle/compare/v0.4.4...v0.5.0) (2023-01-22)
 
 
