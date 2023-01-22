@@ -1,6 +1,6 @@
-import { findAllBundles } from '@src/find-all-bundles'
+import { findAllBundles } from '@src/find-all-bundles.js'
 import { toArrayAsync } from 'iterable-operator'
-import { getFixturesPath } from '@test/utils'
+import { getFixturesPath } from '@test/utils.js'
 
 test('findAllBundles(path: string): AsyncIterable<IBundle>', async () => {
   const iter = findAllBundles(getFixturesPath('.'))

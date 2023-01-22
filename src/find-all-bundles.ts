@@ -1,12 +1,15 @@
-import { buildBundle } from './build-bundle'
-import { AsyncIterableOperator } from 'iterable-operator/lib/es2018/style/chaining/async-iterable-operator'
-import { getResultPromise } from 'return-style'
-import { IBundle } from './types'
 import { findAllDirnames } from 'extra-filesystem'
 import { isntUndefined } from '@blackglory/types'
+import { mapAsync, filterAsync } from 'iterable-operator'
+import { pipe } from 'extra-utils'
+import { buildBundle } from './build-bundle.js'
+import { getResultPromise } from 'return-style'
+import { IBundle } from './types.js'
 
 export function findAllBundles(path: string): AsyncIterable<IBundle> {
-  return new AsyncIterableOperator(findAllDirnames(path))
-    .mapAsync(x => getResultPromise(buildBundle(x)))
-    .filterAsync(isntUndefined)
+  return pipe(
+    findAllDirnames(path)
+  , iter => mapAsync(iter, x => getResultPromise(buildBundle(x)))
+  , iter => filterAsync(iter, isntUndefined)
+  )
 }

@@ -1,5 +1,5 @@
-import { isBundle } from '@src/is-bundle'
-import { getFixturesPath } from '@test/utils'
+import { isBundle } from '@src/is-bundle.js'
+import { getFixturesPath } from '@test/utils.js'
 
 describe('isBundle(path: string): Promise<boolean>', () => {
   describe('is bundle', () => {

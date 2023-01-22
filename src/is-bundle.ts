@@ -5,7 +5,7 @@ import {
 , NoTextFileError
 , TooManyMetaFilesError
 , TooManyTextFilesError
-} from './build-bundle'
+} from './build-bundle.js'
 
 export async function isBundle(path: string): Promise<boolean> {
   try {

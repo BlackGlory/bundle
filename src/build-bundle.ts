@@ -1,6 +1,6 @@
 import { toArrayAsync } from 'iterable-operator'
 import * as path from 'path'
-import { IBundle } from '@src/types'
+import { IBundle } from '@src/types.js'
 import { findAllFilenames, isDirectory, pathExists } from 'extra-filesystem'
 import { CustomError } from '@blackglory/errors'
 import * as fs from 'fs/promises'

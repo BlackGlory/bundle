@@ -6,8 +6,8 @@ import {
 , NotDirectoryError
 , TooManyTextFilesError
 , TooManyMetaFilesError
-} from '@src/build-bundle'
-import { getFixturesPath } from '@test/utils'
+} from '@src/build-bundle.js'
+import { getFixturesPath } from '@test/utils.js'
 
 describe('buildBundle(path: string): Promise<IBundle>', () => {
   describe('is bundle', () => {
