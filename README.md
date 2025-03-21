@@ -2,7 +2,7 @@
 一种用于描述文档的目录结构, 受到[TextBundle]的强烈启发.
 
 与TextBundle的不同点:
-- Bundle直接以目录结构直接在文件系统里表示, 不需要打包.
+- Bundle直接以目录结构在文件系统里表示, 不需要打包.
 - Bundle的文本文件和元数据文件的格式是任意的, 不局限于Markdown和JSON.
 
 [TextBundle]: http://textbundle.org/
