@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.6.0](https://github.com/BlackGlory/bundle/compare/v0.5.2...v0.6.0) (2025-04-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* Node.js v16 => Node.js v22
+
+### Features
+
+* add variant support ([35c511f](https://github.com/BlackGlory/bundle/commit/35c511f9152ef11d0ac1d2ee2079717f16c9c546))
+
 ### [0.5.2](https://github.com/BlackGlory/bundle/compare/v0.5.1...v0.5.2) (2023-06-10)
 
 
