@@ -1,10 +1,27 @@
+import { describe, test, expect } from 'vitest'
 import { isBundle } from '@src/is-bundle.js'
 import { getFixturesPath } from '@test/utils.js'
 
-describe('isBundle(path: string): Promise<boolean>', () => {
-  describe('is bundle', () => {
-    it('return Promise<true>', async () => {
+describe('isBundle', () => {
+  describe('bundle', () => {
+    test('no assets', async () => {
       const path = getFixturesPath('bundle/no-assets')
+
+      const result = await isBundle(path)
+
+      expect(result).toBe(true)
+    })
+
+    test('with assets', async () => {
+      const path = getFixturesPath('bundle/with-assets')
+
+      const result = await isBundle(path)
+
+      expect(result).toBe(true)
+    })
+
+    test('with variants', async () => {
+      const path = getFixturesPath('bundle/with-variants')
 
       const result = await isBundle(path)
 
@@ -12,65 +29,61 @@ describe('isBundle(path: string): Promise<boolean>', () => {
     })
   })
 
-  describe('is not bundle', () => {
-    describe('just not a bundle', () => {
-      it('return Promise<false>', async () => {
-        const path = getFixturesPath('not-bundle')
+  describe('non-bundle', () => {
+    test('just not a bundle', async () => {
+      const path = getFixturesPath('non-bundle')
 
-        const result = await isBundle(path)
+      const result = await isBundle(path)
 
-        expect(result).toBe(false)
-      })
+      expect(result).toBe(false)
     })
 
-    describe('not directory', () => {
-      it('return Promise<false>', async () => {
-        const path = getFixturesPath('not-bundle/not-directory')
+    test('not directory', async () => {
+      const path = getFixturesPath('non-bundle/not-directory')
 
-        const result = await isBundle(path)
+      const result = await isBundle(path)
 
-        expect(result).toBe(false)
-      })
+      expect(result).toBe(false)
     })
 
-    describe('only text', () => {
-      it('return Promise<false>', async () => {
-        const path = getFixturesPath('not-bundle/only-text')
+    test('only text', async () => {
+      const path = getFixturesPath('non-bundle/only-text')
 
-        const result = await isBundle(path)
+      const result = await isBundle(path)
 
-        expect(result).toBe(false)
-      })
+      expect(result).toBe(false)
     })
 
-    describe('only meta', () => {
-      it('return Promise<false>', async () => {
-        const path = getFixturesPath('not-bundle/only-meta')
+    test('only meta', async () => {
+      const path = getFixturesPath('non-bundle/only-meta')
 
-        const result = await isBundle(path)
+      const result = await isBundle(path)
 
-        expect(result).toBe(false)
-      })
+      expect(result).toBe(false)
     })
 
-    describe('multiple text', () => {
-      it('return Promise<false>', async () => {
-        const path = getFixturesPath('not-bundle/multiple-text')
+    test('only variants', async () => {
+      const path = getFixturesPath('non-bundle/only-variants')
 
-        const result = await isBundle(path)
+      const result = await isBundle(path)
 
-        expect(result).toBe(false)
-      })
+      expect(result).toBe(false)
     })
 
-    describe('multiple meta', () => {
-      it('return Promise<false>', async () => {
-        const path = getFixturesPath('not-bundle/multiple-meta')
+    test('multiple text', async () => {
+      const path = getFixturesPath('non-bundle/multiple-text')
 
-        const result = await isBundle(path)
+      const result = await isBundle(path)
 
-        expect(result).toBe(false)
-      })
+      expect(result).toBe(false)
+    })
+
+    test('multiple meta', async () => {
+      const path = getFixturesPath('non-bundle/multiple-meta')
+
+      const result = await isBundle(path)
+
+      expect(result).toBe(false)
     })
   })
 })

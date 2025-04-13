@@ -1,83 +1,173 @@
-import { toArrayAsync } from 'iterable-operator'
+import { toArrayAsync, map, filter, uniq, toArray } from 'iterable-operator'
 import * as path from 'path'
-import { IBundle } from '@src/types.js'
+import { IBundle, IBundleVariant } from '@src/types.js'
 import { findAllFilenames, isDirectory, pathExists } from 'extra-filesystem'
 import { CustomError } from '@blackglory/errors'
 import * as fs from 'fs/promises'
+import { isntUndefined, last, pipe, fromEntries, pipeAsync } from 'extra-utils'
+import { all, map as mapPromises } from 'extra-promise'
+import { go } from '@blackglory/prelude'
 
-export class NoTextFileError extends CustomError {}
-export class NoMetaFileError extends CustomError {}
-export class TooManyTextFilesError extends CustomError {}
-export class TooManyMetaFilesError extends CustomError {}
 export class NotDirectoryError extends CustomError {}
+export class NoMetaFileError extends CustomError {}
+export class NoTextFileError extends CustomError {}
+export class TooManyMetaFilesError extends CustomError {}
+export class TooManyTextFilesError extends CustomError {}
 
 /**
  * @throws {NotDirectoryError}
- * @throws {TooManyTextFilesError}
+ * @throws {NoMetaFileError}
  * @throws {NoTextFileError}
  * @throws {TooManyMetaFilesError}
- * @throws {NoMetaFileError}
+ * @throws {TooManyTextFilesError}
  */
-export async function buildBundle(path: string): Promise<IBundle> {
-  if (!await isDirectory(path)) throw new NotDirectoryError()
+export async function buildBundle(pathname: string): Promise<IBundle> {
+  if (!await isDirectory(pathname)) throw new NotDirectoryError()
 
-  const text = await findTextFilename(path)
-  const meta = await findMetaFilename(path)
-  const assets = await findAssetFilenames(path)
+  const { metaFilename, textFilename, assetFilenames, variantNames } = await all({
+    metaFilename: findMetaFilename(pathname)
+  , textFilename: findTextFilename(pathname)
+  , assetFilenames: findAssetFilenames(pathname)
+  , variantNames: findVariantNames(pathname)
+  })
+
+  const variants: Record<string, IBundleVariant> = await pipeAsync(
+    variantNames
+  , variantNames => mapPromises(
+      variantNames
+    , async (variantName): Promise<[string, IBundleVariant]> => {
+        return [
+          variantName
+        , {
+            meta: await go(async () => {
+              try {
+                return await findMetaFilename(pathname, variantName)
+              } catch (e) {
+                if (e instanceof NoMetaFileError) return
+                if (e instanceof TooManyMetaFilesError) return
+                throw e
+              }
+            })
+          , text: await go(async () => {
+              try {
+                return await findTextFilename(pathname, variantName)
+              } catch (e) {
+                if (e instanceof NoTextFileError) return
+                if (e instanceof TooManyTextFilesError) return
+                throw e
+              }
+            })
+          }
+        ]
+      }
+    )
+  , nameVariantPairs => filter(
+      nameVariantPairs
+    , ([_, variant]) => variant.meta || variant.text
+    )
+  , fromEntries
+  )
 
   return {
-    root: path
-  , text
-  , meta
-  , assets
+    root: pathname
+  , meta: metaFilename
+  , text: textFilename
+  , assets: assetFilenames
+  , variants
   }
 }
 
 /**
- * @throws {TooManyTextFilesError} 
- * @throws {NoTextFileError}
- */
-async function findTextFilename(rootPath: string): Promise<string> {
-  const filenames = await fs.readdir(rootPath)
-  const indexList = filenames
-    .map(x => ({
-      filename: x
-    , basename: getBasename(x)
-    }))
-    .filter(x => x.basename === 'text')
-
-  if (indexList.length === 1) return indexList[0].filename
-  if (indexList.length > 1) throw new TooManyTextFilesError()
-  throw new NoTextFileError()
-}
-
-/**
- * @throws {TooManyMetaFilesError} 
  * @throws {NoMetaFileError}
+ * @throws {TooManyMetaFilesError}
  */
-async function findMetaFilename(rootPath: string): Promise<string> {
+async function findMetaFilename(rootPath: string, variantName?: string): Promise<string> {
   const filenames = await fs.readdir(rootPath)
-  const metaList = filenames
-    .map(x => ({
-      filename: x
-    , basename: getBasename(x)
-    }))
-    .filter(x => x.basename === 'meta')
+  const metaFiles = filenames
+    .map(filename => parseFilename(filename))
+    .filter(file => {
+      return file.variantName === variantName
+          && file.basename === 'meta'
+    })
 
-  if (metaList.length === 1) return metaList[0].filename
-  if (metaList.length > 1) throw new TooManyMetaFilesError()
+  if (metaFiles.length === 1) return metaFiles[0].filename
+  if (metaFiles.length > 1) throw new TooManyMetaFilesError()
   throw new NoMetaFileError()
 }
 
-async function findAssetFilenames(rootPath: string): Promise<string[]> {
-  const assetsPath = path.join(rootPath, 'assets')
-  if (!await pathExists(assetsPath)) return []
-  if (!await isDirectory(assetsPath)) return []
+/**
+ * @throws {NoTextFileError}
+ * @throws {TooManyTextFilesError}
+ */
+async function findTextFilename(rootPath: string, variantName?: string): Promise<string> {
+  const filenames = await fs.readdir(rootPath)
+  const textFiles = filenames
+    .map(filename => parseFilename(filename))
+    .filter(file => {
+      return file.variantName === variantName
+          && file.basename === 'text'
+    })
 
-  const filenames = await toArrayAsync(findAllFilenames(assetsPath))
-  return filenames.map(x => path.relative(rootPath, x))
+  if (textFiles.length === 1) return textFiles[0].filename
+  if (textFiles.length > 1) throw new TooManyTextFilesError()
+  throw new NoTextFileError()
+}
+
+async function findVariantNames(rootPath: string): Promise<string[]> {
+  const filenames = await fs.readdir(rootPath)
+
+  return pipe(
+    filenames
+  , filenames => map(filenames, filename => parseFilename(filename))
+  , files => filter(files, file => {
+      return file.basename === 'text'
+          || file.basename === 'meta'
+    })
+  , files => map(files, file => file.variantName)
+  , variantNames => filter<string | undefined, string>(variantNames, isntUndefined)
+  , uniq
+  , toArray
+  )
+}
+
+async function findAssetFilenames(rootPath: string): Promise<string[]> {
+  const assetDirname = path.join(rootPath, 'assets')
+  if (!await pathExists(assetDirname)) return []
+  if (!await isDirectory(assetDirname)) return []
+
+  const assetFilenames = await toArrayAsync(findAllFilenames(assetDirname))
+  return assetFilenames.map(assetFilename => path.relative(rootPath, assetFilename))
 }
 
 function getBasename(filename: string): string {
   return path.basename(filename, path.extname(filename))
+}
+
+function parseFilename(filename: string): {
+  filename: string
+  basename: string
+  variantName?: string
+} {
+  const basename = getBasename(filename)
+
+  const basenameParts = basename.split('.')
+
+  if (basenameParts.length > 1) {
+    const variantName = last(basenameParts)
+    const basename = basenameParts
+      .slice(0, -1)
+      .join('.')
+
+    return {
+      filename
+    , basename
+    , variantName
+    }
+  } else {
+    return {
+      filename
+    , basename
+    , variantName: undefined
+    }
+  }
 }

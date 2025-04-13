@@ -15,7 +15,24 @@ export interface IBundle {
   text: string
 
   /**
-   * The path of assets, relative to the root directory
+   * The paths of assets, relative to the root directory.
    */
   assets: string[]
+
+  /**
+   * The variants.
+   */
+  variants: Record<string, IBundleVariant>
+}
+
+export interface IBundleVariant {
+  /**
+   * The path of the meta file variant, relative to the root directory.
+   */
+  meta?: string
+
+  /**
+   * The path of the text file variant, relative to the root directory.
+   */
+  text?: string
 }

@@ -7,9 +7,10 @@ import {
 , TooManyTextFilesError
 } from './build-bundle.js'
 
-export async function isBundle(path: string): Promise<boolean> {
+export async function isBundle(pathname: string): Promise<boolean> {
   try {
-    await buildBundle(path)
+    await buildBundle(pathname)
+
     return true
   } catch (e) {
     if (e instanceof NotDirectoryError) return false

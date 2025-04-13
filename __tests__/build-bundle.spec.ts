@@ -1,3 +1,4 @@
+import { describe, test, expect } from 'vitest'
 import { getErrorPromise } from 'return-style'
 import {
   buildBundle
@@ -8,101 +9,122 @@ import {
 , TooManyMetaFilesError
 } from '@src/build-bundle.js'
 import { getFixturesPath } from '@test/utils.js'
+import { assert } from '@blackglory/errors'
 
-describe('buildBundle(path: string): Promise<IBundle>', () => {
+describe('buildBundle', () => {
   describe('is bundle', () => {
-    describe('with assets', () => {
-      it('return Promise<IBundle>', async () => {
-        const path = getFixturesPath('bundle/with-assets')
+    test('no assets', async () => {
+      const path = getFixturesPath('bundle/no-assets')
 
-        const result = await buildBundle(path)
+      const result = await buildBundle(path)
 
-        expect(result).toStrictEqual({
-          root: path
-        , meta: 'meta.json'
-        , text: 'text.md'
-        , assets: [
-            'assets/images/image.png'
-          ]
-        })
+      expect(result).toStrictEqual({
+        root: path
+      , meta: 'meta.json'
+      , text: 'text.md'
+      , assets: []
+      , variants: {}
       })
     })
 
-    describe('no assets', () => {
-      it('return Promise<IBundle>', async () => {
-        const path = getFixturesPath('bundle/no-assets')
+    test('with assets', async () => {
+      const path = getFixturesPath('bundle/with-assets')
 
-        const result = await buildBundle(path)
+      const result = await buildBundle(path)
 
-        expect(result).toStrictEqual({
-          root: path
-        , meta: 'meta.json'
-        , text: 'text.md'
-        , assets: []
-        })
+      expect(result).toStrictEqual({
+        root: path
+      , meta: 'meta.json'
+      , text: 'text.md'
+      , assets: [
+          'assets/images/image.png'
+        ]
+      , variants: {}
+      })
+    })
+
+    test('with variants', async () => {
+      const path = getFixturesPath('bundle/with-variants')
+
+      const result = await buildBundle(path)
+
+      expect(result).toStrictEqual({
+        root: path
+      , meta: 'meta.json'
+      , text: 'text.md'
+      , assets: []
+      , variants: {
+          foo: {
+            meta: 'meta.foo.json'
+          , text: undefined
+          }
+        , bar: {
+            meta: undefined
+          , text: 'text.bar.md'
+          }
+        }
       })
     })
   })
 
-  describe('not bundle', () => {
-    describe('just not a bundle', () => {
-      it('throw Error', async () => {
-        const path = getFixturesPath('not-bundle')
+  describe('non-bundle', () => {
+    test('just not a bundle', async () => {
+      const path = getFixturesPath('non-bundle')
 
-        const result = await getErrorPromise(buildBundle(path))
+      const result = await getErrorPromise(buildBundle(path))
 
-        expect(result).toBeInstanceOf(Error)
-      })
+      expect(result).toBeInstanceOf(Error)
     })
 
-    describe('not directory', () => {
-      it('throw NoDirectoryError', async () => {
-        const path = getFixturesPath('not-bundle/not-directory')
+    test('not directory', async () => {
+      const path = getFixturesPath('non-bundle/not-directory')
 
-        const result = await getErrorPromise(buildBundle(path))
+      const result = await getErrorPromise(buildBundle(path))
 
-        expect(result).toBeInstanceOf(NotDirectoryError)
-      })
+      expect(result).toBeInstanceOf(NotDirectoryError)
     })
 
-    describe('only text', () => {
-      it('throw NoMetaFileError', async () => {
-        const path = getFixturesPath('not-bundle/only-text')
+    test('only text', async () => {
+      const path = getFixturesPath('non-bundle/only-text')
 
-        const result = await getErrorPromise(buildBundle(path))
+      const result = await getErrorPromise(buildBundle(path))
 
-        expect(result).toBeInstanceOf(NoMetaFileError)
-      })
+      expect(result).toBeInstanceOf(NoMetaFileError)
     })
 
-    describe('only meta', () => {
-      it('throw NoTextFileError', async () => {
-        const path = getFixturesPath('not-bundle/only-meta')
+    test('only meta', async () => {
+      const path = getFixturesPath('non-bundle/only-meta')
 
-        const result = await getErrorPromise(buildBundle(path))
+      const result = await getErrorPromise(buildBundle(path))
 
-        expect(result).toBeInstanceOf(NoTextFileError)
-      })
+      expect(result).toBeInstanceOf(NoTextFileError)
     })
 
-    describe('multiple text', () => {
-      it('throw TooManyTextFilesError', async () => {
-        const path = getFixturesPath('not-bundle/multiple-text')
+    test('only variants', async () => {
+      const path = getFixturesPath('non-bundle/only-variants')
 
-        const result = await getErrorPromise(buildBundle(path))
+      const result = await getErrorPromise(buildBundle(path))
 
-        expect(result).toBeInstanceOf(TooManyTextFilesError)
-      })
+      assert(
+        result instanceof NoMetaFileError ||
+        result instanceof NoTextFileError
+      )
     })
 
-    describe('multiple meta', () => {
-      it('throw TooManyMetaFilesError', async () => {
-        const path = getFixturesPath('not-bundle/multiple-meta')
+    test('multiple text', async () => {
+      const path = getFixturesPath('non-bundle/multiple-text')
 
-        const result = await getErrorPromise(buildBundle(path))
+      const result = await getErrorPromise(buildBundle(path))
 
-        expect(result).toBeInstanceOf(TooManyMetaFilesError)
-      })
+      expect(result).toBeInstanceOf(TooManyTextFilesError)
+    })
+
+    test('multiple meta', async () => {
+      const path = getFixturesPath('non-bundle/multiple-meta')
+
+      const result = await getErrorPromise(buildBundle(path))
+
+      expect(result).toBeInstanceOf(TooManyMetaFilesError)
     })
   })
 })
